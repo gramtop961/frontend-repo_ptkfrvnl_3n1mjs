@@ -1,78 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShieldCheck, Quote } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const testimonials = [
   {
-    quote: "The staff are so caring and attentive. Mum feels truly at home.",
-    author: "Anna, Daughter of Resident",
+    quote:
+      'The staff are incredibly kind and attentive. My mum has never been happier. – Emma W.',
   },
   {
-    quote: "Beautiful rooms and a warm, friendly atmosphere.",
-    author: "Robert, Visitor",
+    quote:
+      'Warm, homely atmosphere with wonderful activities every week. – David R.',
   },
-  {
-    quote: "Activities are varied and fun – there's always something to do!",
-    author: "Elaine, Resident",
-  },
+  { quote: 'Beautiful gardens and delicious homemade meals. – Priya S.' },
 ];
 
 export default function RightSidebar() {
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
 
-  React.useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % testimonials.length), 5000);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % testimonials.length);
+    }, 4000);
     return () => clearInterval(id);
   }, []);
 
-  const t = testimonials[index];
-
   return (
-    <aside className="hidden lg:block fixed right-6 top-28 z-30 w-80 space-y-4">
-      {/* COVID info */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-        className="rounded-2xl backdrop-blur-xl bg-white/70 border border-white/60 shadow-xl p-5"
-      >
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shadow-inner">
-            <ShieldCheck size={20} />
+    <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start w-full max-w-sm">
+      <div className="space-y-6">
+        <div className="rounded-2xl p-5 bg-white/10 border border-white/15 backdrop-blur-xl shadow-xl">
+          <div className="flex items-center gap-3">
+            <ShieldCheck className="size-5 text-emerald-300" />
+            <h3 className="text-white font-medium">COVID-19 Safety</h3>
           </div>
-          <div>
-            <p className="font-semibold text-slate-800">COVID-19 Safety</p>
-            <p className="text-slate-600 text-sm">Enhanced cleaning, regular testing, safe visiting guidance.</p>
-          </div>
+          <p className="text-white/70 text-sm mt-2">
+            We follow enhanced cleaning, ventilation, and testing to keep residents and visitors safe.
+          </p>
         </div>
-      </motion.div>
 
-      {/* Testimonials */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        className="rounded-2xl backdrop-blur-xl bg-white/70 border border-white/60 shadow-xl p-5"
-      >
-        <div className="flex items-start gap-3">
-          <div className="h-10 w-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shadow-inner">
-            <Quote size={20} />
+        <div className="rounded-2xl p-5 bg-white/10 border border-white/15 backdrop-blur-xl shadow-xl">
+          <div className="flex items-center gap-3">
+            <Quote className="size-5 text-rose-300" />
+            <h3 className="text-white font-medium">What families say</h3>
           </div>
-          <div>
-            <p className="text-slate-700 italic">“{t.quote}”</p>
-            <p className="text-slate-500 text-sm mt-2">— {t.author}</p>
+          <p className="text-white/80 mt-3 transition-all min-h-[64px]">
+            {testimonials[index].quote}
+          </p>
+          <div className="mt-4 h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div
+              key={index}
+              className="h-full bg-gradient-to-r from-rose-400 to-orange-400 rounded-full animate-[grow_4s_linear_1]"
+              style={{ width: '100%' }}
+            />
           </div>
         </div>
-        <div className="mt-3 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
-          <motion.div
-            key={index}
-            initial={{ width: 0 }}
-            animate={{ width: '100%' }}
-            transition={{ duration: 5, ease: 'linear' }}
-            className="h-full bg-amber-300"
-          />
-        </div>
-      </motion.div>
+      </div>
+      <style>{`
+        @keyframes grow { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+      `}</style>
     </aside>
   );
 }
